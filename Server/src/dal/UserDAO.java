@@ -21,9 +21,9 @@ import org.apache.derby.jdbc.ClientDriver;
  */
 public class UserDAO {
     
-    private final static String CONNECTION_PATH = "jdbc:derby://localhost:1527/students";
-    private final static String USERNAME = "root";
-    private final static String PASSWORD = "root";
+    private final static String CONNECTION_PATH = "jdbc:oracle:thin:@localhost:1521:XE";
+    private final static String USERNAME = "hr";
+    private final static String PASSWORD = "hr";
     static public String getPassword(String userName) throws SQLException{
         DriverManager.registerDriver(new ClientDriver());
         Connection con = DriverManager.getConnection(CONNECTION_PATH, USERNAME, PASSWORD);
