@@ -41,7 +41,20 @@ public class UserDAO {
 
     
     static public int addUser(User user) throws SQLException {return 0;}
-    static public UserDTO getUser(String userName ) throws SQLException {return new UserDTO();}
+    static public HomeUserDTO getHomeUser(String userName) throws SQLException {
+        DriverManager.registerDriver(new OracleDriver());
+        Connection con = DriverManager.getConnection(CONNECTION_PATH, USERNAME, PASSWORD);
+        PreparedStatement stmt  = con.prepareStatement("select username, fullName, balance from users where username = ?");
+        stmt.setString(1, userName);
+        ResultSet rs = stmt.executeQuery();
+        HomeUserDTO user = null;
+        if (rs.next()) {
+            user = new HomeUserDTO( rs.getString("username"),  rs.getString("fullName"), rs.getDouble("balance"));
+        }
+        con.close();
+        stmt.close();
+        return user;
+    }
     static public int updateBalance(String userName) throws SQLException {return 0;}
 
 
