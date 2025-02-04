@@ -5,6 +5,7 @@
  */
 package dal;
 
+import dto.HomeUserDTO;
 import dto.UserDTO;
 import entities.User;
 import java.sql.Connection;
@@ -12,7 +13,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.apache.derby.jdbc.ClientDriver;
+import oracle.jdbc.OracleDriver;
 
 
 /**
@@ -20,30 +21,28 @@ import org.apache.derby.jdbc.ClientDriver;
  * @author Ahmed
  */
 public class UserDAO {
-    
-    private final static String CONNECTION_PATH = "jdbc:oracle:thin:@localhost:1521:XE";
-    private final static String USERNAME = "hr";
-    private final static String PASSWORD = "hr";
+
+
     static public String getPassword(String userName) throws SQLException{
-        DriverManager.registerDriver(new ClientDriver());
-        Connection con = DriverManager.getConnection(CONNECTION_PATH, USERNAME, PASSWORD);
-        PreparedStatement stmt  = con.prepareStatement("select password from logintest where username = ?");
+        Database db = new Database();
+        Connection con = db.getConnection();
+        PreparedStatement stmt  = con.prepareStatement("select password from users where username = ?");
         stmt.setString(1, userName);
         ResultSet rs = stmt.executeQuery();
         String password= null;
-        while(rs.next()){
-            password = rs.getString("password"); 
+        if (rs.next()) {
+            password = rs.getString("password");
         }
-        con.close();
+        db.close();
         stmt.close();
-        return password; 
+        return password;
     }
 
-    
+
     static public int addUser(User user) throws SQLException {return 0;}
     static public HomeUserDTO getHomeUser(String userName) throws SQLException {
-        DriverManager.registerDriver(new OracleDriver());
-        Connection con = DriverManager.getConnection(CONNECTION_PATH, USERNAME, PASSWORD);
+        Database db = new Database();
+        Connection con = db.getConnection();
         PreparedStatement stmt  = con.prepareStatement("select username, fullName, balance from users where username = ?");
         stmt.setString(1, userName);
         ResultSet rs = stmt.executeQuery();
@@ -51,12 +50,12 @@ public class UserDAO {
         if (rs.next()) {
             user = new HomeUserDTO( rs.getString("username"),  rs.getString("fullName"), rs.getDouble("balance"));
         }
-        con.close();
+        db.close();
         stmt.close();
         return user;
     }
     static public int updateBalance(String userName) throws SQLException {return 0;}
 
 
-    
+
 }
