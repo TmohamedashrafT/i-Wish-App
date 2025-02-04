@@ -22,12 +22,11 @@ import oracle.jdbc.OracleDriver;
  */
 public class UserDAO {
 
-
     static public String getPassword(String userName) throws SQLException{
         Database db = new Database();
         Connection con = db.getConnection();
         PreparedStatement stmt  = con.prepareStatement("select password from users where username = ?");
-        stmt.setString(1, userName);
+       stmt.setString(1, userName);
         ResultSet rs = stmt.executeQuery();
         String password= null;
         if (rs.next()) {
