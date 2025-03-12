@@ -13,6 +13,8 @@ i-Wish is a desktop application designed to enhance the gifting experience among
 - **Live Notifications**  
   - Buyers receive real-time notifications when an item is fully funded.  
   - Receivers are notified live when an item has been purchased for them.
+  - Users receive live notifications when they send a friend request.
+  - Users receive live notifications when their friend request is accepted.
 - **User-Friendly GUI** – Designed to provide an enjoyable user experience.
 - **Server Management** – Start/stop the server and handle client connections.
 - **Database Management**  
